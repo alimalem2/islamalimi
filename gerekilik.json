@@ -1,9 +1,0 @@
-{
-  "name": "alim ai",
-  "version": "1.0.0",
-  "scripts": {
-    "start": "node alim.js" 
-  },
-  "dependencies": {
-    "@google/generative-ai": "0.1.0"
-}
