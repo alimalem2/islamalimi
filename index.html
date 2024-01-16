@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generative AI Chat</title>
+</head>
+<body>
+  <div>
+    <label for="userInput">Enter your message:</label>
+    <input type="text" id="userInput">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+  <div id="chatOutput"></div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "@google/generative-ai": "https://esm.run/@google/generative-ai"
+      }
+    }
+  </script>
+    <script type="module">
+      import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
+    
+
+const MODEL_NAME = "gemini-pro";
+const API_KEY = "AIzaSyBjdHMOJfCySu2vg8Xrle8PhKER0ZbWZJU";
+
+async function runChat() {
+  const genAI = new GoogleGenerativeAI(API_KEY);
+  const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+
+  const generationConfig = {
+    temperature: 0.9,
+    topK: 1,
+    topP: 1,
+    maxOutputTokens: 2048,
+  };
+
+  const safetySettings = [
+    {
+      category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+      threshold: HarmBlockThreshold.BLOCK_NONE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+      threshold: HarmBlockThreshold.BLOCK_NONE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+      threshold: HarmBlockThreshold.BLOCK_NONE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+      threshold: HarmBlockThreshold.BLOCK_NONE
+    },
+  ];
+
+  const chat = model.startChat({
+    generationConfig,
+    safetySettings,
+    history: [
+      {
+        role: "user",
+        parts: [{ text: "sen kimsin ve neler yapabilirsin"}],
+      },
+      {
+        role: "model",
+        parts: [{ text: "ben çok bilgili bir islam alimiyim. sorduğun bütün sorulara bir islam alimi olarak cevap verebilirim, seninle samimi sohbet edebilirim, yanıldığını düşündüğümde seninle tartışabilirim, her meseleyi sana izah edebilirim, islam dininin kesin doğruluğunu anlatabilrim. benimle istediğin konuda konuşabilirsin. Ben sana en doğru yanıtı şüphe götürmez bir şekilde vereceğim."}],
+      },
+    ],
+  });
+
+  const result = await chat.sendMessage("YOUR_USER_INPUT");
+  const response = result.response;
+  console.log(response.text());
+}
+
+runChat();
+
+    const userInputField = document.getElementById('userInput');
+    const chatOutputDiv = document.getElementById('chatOutput');
+
+    async function sendMessage() {
+      const userMessage = userInputField.value;
+
+      // Call the runChat function with the user's input
+      const result = await chat.sendMessage(userMessage);
+      const response = result.response;
+
+      // Display the response in the chatOutputDiv
+      chatOutputDiv.innerHTML += <p>User: ${userMessage}</p>;
+      chatOutputDiv.innerHTML += <p>Model: ${response.text()}</p>;
+
+      // Clear the input field
+      userInputField.value = '';
+    }
+  </script>
+</body>
+</html>
