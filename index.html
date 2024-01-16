@@ -14,19 +14,15 @@
   <div id="chatOutput"></div>
 
   <script type="importmap">
-      {
-        "imports": {
-          "@google/generative-ai": "https://esm.run/@google/generative-ai"
-        }
+    {
+      "imports": {
+        "@google/generative-ai": "https://esm.run/@google/generative-ai"
       }
-    </script>
+    }
+  </script>
     <script type="module">
-      import { GoogleGenerativeAI } from "@google/generative-ai";
-     const {
-  GoogleGenerativeAI,
-  HarmCategory,
-  HarmBlockThreshold,
-} = require("@google/generative-ai");
+      import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
+    
 
 const MODEL_NAME = "gemini-pro";
 const API_KEY = "AIzaSyBjdHMOJfCySu2vg8Xrle8PhKER0ZbWZJU";
@@ -94,8 +90,8 @@ runChat();
       const response = result.response;
 
       // Display the response in the chatOutputDiv
-      chatOutputDiv.innerHTML += `<p>User: ${userMessage}</p>`;
-      chatOutputDiv.innerHTML += `<p>Model: ${response.text()}</p>`;
+      chatOutputDiv.innerHTML += <p>User: ${userMessage}</p>;
+      chatOutputDiv.innerHTML += <p>Model: ${response.text()}</p>;
 
       // Clear the input field
       userInputField.value = '';
