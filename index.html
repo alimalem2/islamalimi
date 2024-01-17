@@ -90,6 +90,14 @@
           role: "model",
           parts: [{ text: "elbette Allah var ve islam dini doğru dindir" }],
         },
+        {
+          role: "user",
+          parts: [{ text: "kuran da birçok bilimsel mucize vardır" }],
+        },
+        {
+          role: "model",
+          parts: [{ text: "evet" }],
+        },
       ];
 
       chat = model.startChat({
@@ -102,19 +110,27 @@
     const userInputField = document.getElementById('userInput');
     const chatOutputDiv = document.getElementById('chatOutput');
 
+    // Sabit mesajı ekleyin: "Yanıtın gelmesi birkaç saniye sürebilir."
+    chatOutputDiv.innerHTML += "<p style='font-style: italic; color: gray;'>Yanıtın gelmesi birkaç saniye sürebilir.</p>";
+
     window.sendMessage = async function() {
       const userMessage = userInputField.value;
+
+      // Display the user message in the chatOutputDiv
+      chatOutputDiv.innerHTML += `<p>User: ${userMessage}</p>`;
+
+      // Clear the input field
+      userInputField.value = '';
 
       // Call the runChat function with the user's input
       const result = await chat.sendMessage(userMessage);
       const response = result.response;
 
       // Display the response in the chatOutputDiv
-      chatOutputDiv.innerHTML += `<p>User: ${userMessage}</p>`;
       chatOutputDiv.innerHTML += `<p>Model: ${response.text()}</p>`;
 
-      // Clear the input field
-      userInputField.value = '';
+      // Scroll to the bottom to show the latest messages
+      chatOutputDiv.scrollTop = chatOutputDiv.scrollHeight;
     };
 
     runChat();  // Ensure this line is included if you want to start the chat when the page loads
