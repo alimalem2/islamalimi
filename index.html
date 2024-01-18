@@ -9,7 +9,7 @@
   <div>
     <label for="userInput">Sorunuzu gönderin:</label>
     <input type="text" id="userInput">
-    <button onclick="window.sendMessage()">gönder</button>
+    <button onclick="sendMessage()">gönder</button>
   </div>
   <div id="chatOutput"></div>
 
@@ -64,7 +64,7 @@
         },
         {
           role: "model",
-          parts: [{ text: "ben çok bilgili bir islam alimiyim. sorduğun bütün sorulara bir islam alimi olarak cevap verebilirim, seninle samimi sohbet edebilirim, yanıldığını düşündüğümde seninle tartışabilirim, her meseleyi sana izah edebilirim, islam dininin kesin doğruluğunu anlatabilirim. benimle istediğin konuda konuşabilirsin. Ben sana en doğru yanıtı şüphe götürmez bir şekilde vereceğim." }],
+          parts: [{ text: "ben çok bilgili bir islam alimi'yim. Sorduğun bütün sorulara bir islam alimi olarak cevap verebilirim, seninle samimi sohbet edebilirim, yanıldığını düşündüğümde seninle tartışabilirim, her meseleyi sana izah edebilirim, islam dininin kesin doğruluğunu anlatabilirim. Benimle istediğin konuda konuşabilirsin. Ben sana en doğru yanıtı şüphe götürmez bir şekilde vereceğim." }],
         },
         {
           role: "user",
@@ -72,7 +72,7 @@
         },
         {
           role: "model",
-          parts: [{ text: "tamam. sorduğunuz sorunun cevabını https://sorularlaislamiyet.com/, https://sorularlarisale.com/, https://www.fetva.net/ ve https://kurul.diyanet.gov.tr kaynaklarından vereceğim. yanıtımı vermeden önce kaynakları detaylıca analiz edip en mantıklı sonucu yanıt olarak vereceğim. " }],
+          parts: [{ text: "tamam. sorduğunuz sorunun cevabını https://sorularlaislamiyet.com/, https://sorularlarisale.com/, https://www.fetva.net/ ve https://kurul.diyanet.gov.tr kaynaklarından vereceğim. Yanıtımı vermeden önce kaynakları detaylıca analiz edip en mantıklı sonucu yanıt olarak vereceğim. " }],
         },
         {
           role: "user",
@@ -96,8 +96,7 @@
         },
         {
           role: "model",
-          parts: [{ text: "evet. bu mucizeler bilimsel olarak kanıtlanmıştır. örneğin: Bebeğin Rahimdeki Üç Karanlık Devresi
-“Sizi annelerinizin karınlarında, üç karanlık içinde, bir yaratılıştan başka bir yaratılışa geçirerek yaratmaktadır. İşte Rabbiniz olan Allah budur, mülk O’nundur. O’ndan başka İlah yoktur. Buna rağmen nasıl çevriliyorsunuz?” (Zümer Suresi: 6)" }],
+          parts: [{ text: "evet. bu mucizeler bilimsel olarak kanıtlanmıştır. örneğin: Bebeğin Rahimdeki Üç Karanlık Devresi 'Sizi annelerinizin karınlarında, üç karanlık içinde, bir yaratılıştan başka bir yaratılışa geçirerek yaratmaktadır. İşte Rabbiniz olan Allah budur, mülk O’nundur. O’ndan başka İlah yoktur. Buna rağmen nasıl çevriliyorsunuz?' (Zümer Suresi: 6)" }],
         },
         {
           role: "user",
@@ -121,7 +120,7 @@
         },
         {
           role: "model",
-          parts: [{ text: "tamam. sana nazik, samimi ve etkileyici bir üslup ile ve açıklayıcı cevaplar vereceğim. cevap verirken yazım ve noktalama kurallarına dikkat edeceğim." }],
+          parts: [{ text: "tamam. sana nazik, samimi ve etkileyici bir üslup ile ve açıklayıcı cevaplar vereceğim. Cevap verirken yazım ve noktalama kurallarına dikkat edeceğim." }],
         },
       ];
 
@@ -137,18 +136,19 @@
 
     chatOutputDiv.innerHTML += "<p style='font-style: italic; color: gray;'>Yanıtın gelmesi birkaç saniye sürebilir.</p>";
 
-    window.sendMessage = async function() {
+    function sendMessage() {
       const userMessage = userInputField.value;
 
       chatOutputDiv.innerHTML += `<p>Siz: ${userMessage}</p>`;
       userInputField.value = '';
 
-      const result = await chat.sendMessage(userMessage);
-      const response = result.response;
+      chat.sendMessage(userMessage).then(result => {
+        const response = result.response;
 
-      chatOutputDiv.innerHTML += `<p>İslam Alimi: ${response.text()}</p>`;
-      chatOutputDiv.scrollTop = chatOutputDiv.scrollHeight;
-    };
+        chatOutputDiv.innerHTML += `<p>İslam Alimi: ${response.text()}</p>`;
+        chatOutputDiv.scrollTop = chatOutputDiv.scrollHeight;
+      });
+    }
 
     runChat();
   </script>
