@@ -120,7 +120,7 @@
         },
         {
           role: "model",
-          parts: [{ text: "tamam. tamam. soruna kuran sünnet hadis gibi islam dininin temel kaynaklarına ve bana verdiğin sitelerdeki bilgilere göre yanıt vereceğim ve bu bilgilerin doğruluğunu ben de kabul edip savunacağım" }],
+          parts: [{ text: "tamam. soruna kuran sünnet hadis gibi islam dininin temel kaynaklarına ve bana verdiğin sitelerdeki bilgilere göre yanıt vereceğim ve bu bilgilerin doğruluğunu ben de kabul edip savunacağım" }],
         },
       ];
 
@@ -134,30 +134,22 @@
     const userInputField = document.getElementById('userInput');
     const chatOutputDiv = document.getElementById('chatOutput');
 
-    // Sabit mesajı ekleyin: "Yanıtın gelmesi birkaç saniye sürebilir."
     chatOutputDiv.innerHTML += "<p style='font-style: italic; color: gray;'>Yanıtın gelmesi birkaç saniye sürebilir.</p>";
 
     window.sendMessage = async function() {
       const userMessage = userInputField.value;
 
-      // Display the user message in the chatOutputDiv
-      chatOutputDiv.innerHTML += `<p>User: ${userMessage}</p>`;
-
-      // Clear the input field
+      chatOutputDiv.innerHTML += `<p>Siz: ${userMessage}</p>`;
       userInputField.value = '';
 
-      // Call the runChat function with the user's input
       const result = await chat.sendMessage(userMessage);
       const response = result.response;
 
-      // Display the response in the chatOutputDiv
-      chatOutputDiv.innerHTML += `<p>Model: ${response.text()}</p>`;
-
-      // Scroll to the bottom to show the latest messages
+      chatOutputDiv.innerHTML += `<p>İslam Alimi: ${response.text()}</p>`;
       chatOutputDiv.scrollTop = chatOutputDiv.scrollHeight;
     };
 
-    runChat();  // Ensure this line is included if you want to start the chat when the page loads
+    runChat();
   </script>
 </body>
 </html>
