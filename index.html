@@ -9,7 +9,7 @@
   <div>
     <label for="userInput">Sorunuzu gönderin:</label>
     <input type="text" id="userInput">
-    <button onclick="sendMessage()">gönder</button>
+    <button onclick="window.sendMessage()">gönder</button>
   </div>
   <div id="chatOutput"></div>
 
@@ -64,7 +64,7 @@
         },
         {
           role: "model",
-          parts: [{ text: "ben çok bilgili bir islam alimi'yim. Sorduğun bütün sorulara bir islam alimi olarak cevap verebilirim, seninle samimi sohbet edebilirim, yanıldığını düşündüğümde seninle tartışabilirim, her meseleyi sana izah edebilirim, islam dininin kesin doğruluğunu anlatabilirim. Benimle istediğin konuda konuşabilirsin. Ben sana en doğru yanıtı şüphe götürmez bir şekilde vereceğim." }],
+          parts: [{ text: "ben çok bilgili bir islam alimiyim. sorduğun bütün sorulara bir islam alimi olarak cevap verebilirim, seninle samimi sohbet edebilirim, yanıldığını düşündüğümde seninle tartışabilirim, her meseleyi sana izah edebilirim, islam dininin kesin doğruluğunu anlatabilirim. benimle istediğin konuda konuşabilirsin. Ben sana en doğru yanıtı şüphe götürmez bir şekilde vereceğim." }],
         },
         {
           role: "user",
@@ -120,7 +120,7 @@
         },
         {
           role: "model",
-          parts: [{ text: "tamam. sana nazik, samimi ve etkileyici bir üslup ile ve açıklayıcı cevaplar vereceğim. Cevap verirken yazım ve noktalama kurallarına dikkat edeceğim." }],
+          parts: [{ text: "tamam. sana nazik, samimi ve etkileyici bir üslup ile ve açıklayıcı cevaplar vereceğim. Cevap verirken yazım ve noktalama kurallarına dikkat edeceğim. * işaretini kullanmayacağım." }],
         },
       ];
 
@@ -136,19 +136,18 @@
 
     chatOutputDiv.innerHTML += "<p style='font-style: italic; color: gray;'>Yanıtın gelmesi birkaç saniye sürebilir.</p>";
 
-    function sendMessage() {
+    window.sendMessage = async function() {
       const userMessage = userInputField.value;
 
       chatOutputDiv.innerHTML += `<p>Siz: ${userMessage}</p>`;
       userInputField.value = '';
 
-      chat.sendMessage(userMessage).then(result => {
-        const response = result.response;
+      const result = await chat.sendMessage(userMessage);
+      const response = result.response;
 
-        chatOutputDiv.innerHTML += `<p>İslam Alimi: ${response.text()}</p>`;
-        chatOutputDiv.scrollTop = chatOutputDiv.scrollHeight;
-      });
-    }
+      chatOutputDiv.innerHTML += `<p>İslam Alimi: ${response.text()}</p>`;
+      chatOutputDiv.scrollTop = chatOutputDiv.scrollHeight;
+    };
 
     runChat();
   </script>
